@@ -1,0 +1,39 @@
+// @file
+// Slat layout
+
+.slat {
+  @include clearfix;
+}
+
+.slat__media {
+  float: left;
+  margin: 0;
+  padding: 0 em($gutter-width) rhythm(1) 0;
+
+  &:empty {
+    padding: 0;
+  }
+
+  a,
+  img {
+    display: block;
+  }
+}
+
+.slat__content {
+  display: table-cell;
+  width: 10000px;
+
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+    *width: auto;
+    *zoom: 1;
+  }
+}
+
+.slat--reversed {
+  .slat__media {
+    float: right;
+    padding-left: em($gutter-width);
+    padding-right: 0;
+  }
+}
