@@ -1,0 +1,13 @@
+// @file
+// Vertical align
+
+@mixin vertical-align {
+  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 or $legacy-support-for-ie8 {
+
+  }
+  @else {
+    @include translateY(-50%);
+    position: relative;
+    top: 50%;
+  }
+}

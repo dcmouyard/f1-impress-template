@@ -1,0 +1,18 @@
+// @file
+// Styles for columns.
+
+.columns {
+  @include column-gap(em($gutter-width));
+  -webkit-margin-bottom-collapse: separate;
+
+  > * {
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 0;
+  }
+}
+
+@for $i from 1 through 4 {
+  .columns--#{$i} {
+    @include column-count($i);
+  }
+}
