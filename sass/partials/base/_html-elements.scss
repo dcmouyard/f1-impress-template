@@ -24,23 +24,28 @@
 }
 
 a {
+  background-color: transparent;
   color: $link-color;
-  margin: -2px; // Improved readability when focused.
-  padding: 2px; // Improved readability when focused.
-  text-decoration: none;
+  // Improves readability when focused.
+  outline-offset: em(2px);
+
+  &:active,
+  &:hover {
+    outline: 0;
+  }
 
   &:hover,
   &:focus {
     color: $link-hover-color;
   }
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 
 abbr {
   @include smallcaps();
+
+  &[title] {
+    border-bottom: 1px dotted;
+  }
 
   &:hover {
     cursor: help;
@@ -64,7 +69,7 @@ blockquote {
   position: relative;
 
   &:before {
-    color: $f1-red;
+    color: $highlight-color;
     content: "\201C";
     display: inline-block;
     font-size: 300%;
@@ -78,22 +83,26 @@ blockquote {
     display: block;
     font-style: normal;
     font-weight: 300;
+    line-height: 1.25;
     margin-top: 0.5em;
     text-align: right;
   }
 }
 
 body {
-  background: url(../img/f1-white.png) no-repeat 98% 98%, #000 url(../img/splat.png) no-repeat 100% 100%;
+  background: $body-color url(../img/branding/f1-wordmark-white.svg) no-repeat calc(100% - 24px) calc(100% - 18px);
+  background-size: 144px 16px;
   color: $primary-text-color;
   font-weight: 300;
-  text-shadow: #000 2px 2px;
+  text-shadow: darken($body-color, 20%) 2px 2px;
   word-wrap: break-word;
 }
 
 // Don't style button elements, since they're often styled as links for
 // accessible widgets. Use the .button class in partials/components/buttons.
-button {}
+button {
+  overflow: visible;
+}
 
 canvas {}
 
@@ -102,6 +111,7 @@ caption {}
 cite {
   > small {
     display: block;
+    line-height: 1.25;
   }
 }
 
@@ -115,25 +125,23 @@ colgroup {}
 
 datalist {}
 
-dd {}
+dd {
+  margin-bottom: rhythm(1);
+}
 
 del {}
 
 details {}
 
-dfn {}
+dfn {
+  font-style: italic;
+}
 
 dl {
-  margin: rhythm(1) 0;
+  margin: 0 0 rhythm(1);
 }
 
-dt {
-  margin-top: rhythm(1);
-}
-
-dt + dt {
-  margin-top: 0;
-}
+dt {}
 
 em {}
 
@@ -143,7 +151,9 @@ fieldset {}
 
 figcaption {}
 
-figure {}
+figure {
+  margin: 0 0 rhythm(1);
+}
 
 footer {}
 
@@ -152,62 +162,69 @@ form {}
 %hN {
   color: $heading-text-color;
   font-family: $header-font-family;
-  line-height: 1.25;
+  @include hyphens(none);
+  line-height: 1.1;
   text-rendering: optimizeLegibility;
+
+  small {
+    display: block;
+  }
 }
 
 .title {
   @extend %hN;
   font-size: em($font-size-xxl);
-  margin: rhythm(1, $font-size-xxl) 0;
+  margin-bottom: rhythm(1, $font-size-xxl);
 }
 
 h1,
 .h1 {
   @extend %hN;
-  font-size: em($font-size-xl);
-  margin: rhythm(1, $font-size-xl) 0;
+  font-size: em($font-size-xxl);
+  margin: 0 0 rhythm(1, $font-size-xxl);
 }
 
 h2,
 .h2 {
   @extend %hN;
-  font-size: em($font-size-lg);
-  margin: rhythm(1, $font-size-lg) 0;
+  font-size: em($font-size-xl);
+  margin: 0 0 rhythm(1, $font-size-xl);
 }
 
 h3,
 .h3 {
   @extend %hN;
-  font-size: em($font-size-normal);
-  margin: rhythm(1, $font-size-normal) 0;
+  font-size: em($font-size-lg);
+  margin: 0 0 rhythm(1, $font-size-lg);
 }
 
 h4,
 .h4 {
   @extend %hN;
   font-size: em($font-size-normal);
-  margin: rhythm(1, $font-size-normal) 0;
+  margin: 0 0 rhythm(1, $font-size-normal);
 }
 
 h5,
 .h5 {
   @extend %hN;
   font-size: em($font-size-md);
-  margin: rhythm(1, $font-size-md) 0;
+  margin: 0 0 rhythm(1, $font-size-md);
 }
 
 h6,
 .h6 {
   @extend %hN;
   font-size: em($font-size-sm);
-  margin: rhythm(1, $font-size-sm) 0;
+  margin: 0 0 rhythm(1, $font-size-sm);
 }
 
 header {}
 
 hr {
+  @include box-sizing(content-box);
   border: 1px solid $border-color;
+  height: 0;
   margin: rhythm(1) 0;
   padding-bottom: -1px;
 }
@@ -219,19 +236,33 @@ html {
   font-size: 100% * ($base-font-size / 16px);
   overflow-x: hidden;
   overflow-y: hidden;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 i {}
 
 iframe {}
 
-img {}
+img {
+  border: 0;
+  @if support-legacy-browser('ie', '7') {
+    // Improve image quality when scaled in IE 7.
+    -ms-interpolation-mode: bicubic;
+  }
+  @if support-legacy-browser('ie', '8') {
+    // Correct IE 8 not scaling image height when resized.
+    width: auto;
+  }
+}
 
 // Don't style button, submit, or reset elements, since they're often styled as
 // links for accessible widgets. Use the .button class in
 // partials/components/buttons.
-input {}
+input {
+  line-height: normal;
+}
+
 input[type="button"] {}
 input[type="checkbox"] {}
 input[type="color"] {}
@@ -262,8 +293,10 @@ kbd {}
 label {}
 
 legend {
+  border: 0;
   margin: 0;
-  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+  padding: 0;
+  @if support-legacy-browser('ie', '6', '7') {
     *margin-left: -7px; // LTR
 
     [dir="rtl"] & {
@@ -293,7 +326,7 @@ nav {}
 object {}
 
 ol {
-  margin: rhythm(1) 0;
+  margin: 0 0 rhythm(1);
   padding: 0 0 0 1.5em; // LTR
 
   [dir="rtl"] & {
@@ -306,21 +339,29 @@ ol {
   }
 }
 
-optgroup {}
+optgroup {
+  font-weight: bold;
+}
 
 option {}
 
 output {}
 
 p {
-  margin: rhythm(1) 0;
+  margin: 0 0 rhythm(1);
 }
 
 param {}
 
 pre {
   font-size: 65%;
-  margin: rhythm(1) 0;
+  margin: 0 0 rhythm(1);
+  overflow: auto;
+  @if support-legacy-browser('ie', '6', '7') {
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
 }
 
 progress {}
@@ -336,24 +377,33 @@ section {}
 select {}
 
 small {
-  @include adjust-font-size-to($font-size-md);
+  @include adjust-font-size-to($font-size-sm);
 }
 
 strong {}
 
-sub {}
+sub {
+  bottom: -0.25em;
+}
 
 summary {}
 
-sup {}
+sup {
+  top: -0.5em;
+}
 
-table {}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
 
 tbody {}
 
 td {}
 
-textarea {}
+textarea {
+  overflow: auto;
+}
 
 tfoot {}
 
@@ -369,7 +419,7 @@ u {}
 
 ul {
   list-style-type: square;
-  margin: rhythm(1) 0;
+  margin: 0 0 rhythm(1);
   padding: 0 0 0 1.2em; // LTR
 
   [dir="rtl"] & {
@@ -392,11 +442,11 @@ video {}
     background: transparent !important;
     box-shadow: none !important;
     color: #000 !important;
-    @if $legacy-support-for-ie6 or $legacy-support-for-ie7 or $legacy-support-for-ie8 {
+    text-shadow: none !important;
+    @if support-legacy-browser('ie', '6', '8') {
       -ms-filter: none !important;
       filter: none !important;
     }
-    text-shadow: none !important;
   }
 
   iframe,

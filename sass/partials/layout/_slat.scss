@@ -1,14 +1,21 @@
 // @file
-// Slat layout
+// Display Suite slat layout style
 
-.slat {
+$bp-first: 600px, 'no-query' true;
+$gutter: 1em;
+
+.layout-slat {
   @include clearfix;
 }
 
-.slat__media {
-  float: left;
+.layout-slat__media {
   margin: 0;
-  padding: 0 em($gutter-width) rhythm(1) 0;
+  padding: 0 0 rhythm(1);
+
+  @include breakpoint($bp-first) {
+    float: left;
+    padding-right: $gutter;
+  }
 
   &:empty {
     padding: 0;
@@ -20,20 +27,22 @@
   }
 }
 
-.slat__content {
+.layout-slat__content {
   display: table-cell;
   width: 10000px;
 
-  @if $legacy-support-for-ie6 or $legacy-support-for-ie7 {
+  @if support-legacy-browser('ie', '6', '7') {
     *width: auto;
     *zoom: 1;
   }
 }
 
-.slat--reversed {
-  .slat__media {
-    float: right;
-    padding-left: em($gutter-width);
-    padding-right: 0;
+.layout-slat--reversed {
+  .layout-slat__media {
+    @include breakpoint($bp-first) {
+      float: right;
+      padding-left: $gutter;
+      padding-right: 0;
+    }
   }
 }
