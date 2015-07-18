@@ -2,7 +2,7 @@
 // Slides
 
 // Show/hide other slides based on which slide is active.
-@each $slide in title, final {
+@each $slide in title, speaker, final {
   .impress-on-#{$slide} .show-on-#{$slide} {
     opacity: 1;
   }

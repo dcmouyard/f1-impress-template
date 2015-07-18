@@ -4,7 +4,7 @@
 #
 
 # Change this to :production when ready to deploy the CSS to the live server.
-environment = :production
+environment = :development
 
 # Enable generation of source map files in development mode.
 sourcemap = true
