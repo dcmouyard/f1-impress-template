@@ -13,7 +13,7 @@ sourcemap = true
 css_dir = "css"
 fonts_dir = "css/fonts"
 sass_dir = "sass"
-images_dir = "images"
+images_dir = "img"
 javascripts_dir = "js"
 
 # Require any additional compass plugins installed on your system.
